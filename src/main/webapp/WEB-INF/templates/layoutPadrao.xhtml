@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:insert name="metadata" />
+
+<h:head>
+	<title><ui:insert name="title">Main page</ui:insert></title>
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+	<h:outputScript name="locale-primefaces.js" library="js" />
+	<style>
+body {
+	background-color: #F5DA81;
+}
+
+.ui-dataview-list .ui-dataview-row {
+	padding: 25px 10px;
+	/* with the exported variables from Nova and Luna Themes*/
+	border-bottom-color: var(- -input-border-color, #A8A8A8);
+}
+
+.logo {
+	width: 5%;
+}
+
+.detail {
+	width: 85%;
+	padding-left: 25px;
+}
+</style>
+</h:head>
+
+<h:body>
+
+	<ui:debug hotkey="z" />
+	<div>
+		<ui:insert class="menu" name="Menu">
+			<h:form>
+				<p:menubar style="border-color: #DF7401">
+					<p:menuitem id="home" value="Home" outcome="/admin/index.xhtml"
+						icon="pi pi-home" />
+					<p:submenu id="subMenuUsuario" label="Usuário" icon="pi pi-user">
+						<p:menuitem id="subMenuUsuarioItemEditUsuario"
+							value="Editar Usuario" outcome="/usuario.xhtml"
+							icon="pi pi-pencil">
+							<f:param name="usuario" value="#{loginBean.usuarioLogado.id}" />
+						</p:menuitem>
+					</p:submenu>
+					<p:submenu id="subServicos" label="Serviços"
+						icon="pi pi-shopping-cart">
+						<p:menuitem id="subMenuServicosCliente" value="Main..."
+							outcome="/admin/cliente/servicos.xhtml" icon="pi pi-home"
+							rendered="#{loginBean.cliente}" />
+						<p:menuitem id="subMenuServicosProfissional" value="Meus Serviços"
+							outcome="/admin/profissional/servicos.xhtml" icon="pi pi-home"
+							rendered="#{loginBean.profissional}" />
+						<p:menuitem id="subMenuServicoItemAdd" value="Add Serviços"
+							outcome="/admin/profissional/servico.xhtml" icon="pi pi-plus"
+							rendered="#{loginBean.profissional}" />
+					</p:submenu>
+					<p:submenu id="subMenuContratoServico" label="Contrato de Serviço"
+						icon="pi pi-dollar">
+						<p:menuitem id="subMenuContratoHistoricoCliente"
+							outcome="/admin/cliente/contratos.xhtml" value="Contratos"
+							icon="pi pi-home" rendered="#{loginBean.cliente}" />
+						<p:menuitem id="subMenuContratoHistoricoProfissional"
+							value="Contratos" outcome="/admin/profissional/contratos.xhtml"
+							icon="pi pi-home" rendered="#{loginBean.profissional}" />
+					</p:submenu>
+					<f:facet name="options">
+						<p:commandLink value="#{loginBean.usuarioLogado.nome}"
+							style="margin-right:10px"
+							oncomplete="if (!args.validationFailed) { PF('dadosUsuarioDialog').show() }"
+							update=":dadosUsuarioDialogId" />
+						<p:commandButton id="menuItemLogout" value="Logout"
+							icon="pi pi-fw pi-sign-out" action="#{loginBean.logout()}">
+							<p:confirm header="
+							Confirmação!"
+								message="Você realmente deseja sair?" icon="ui-icon-alert" />
+						</p:commandButton>
+					</f:facet>
+				</p:menubar>
+			</h:form>
+
+			<ui:include src="/WEB-INF/templates/dadosUsuario.xhtml" />
+
+		</ui:insert>
+	</div>
+
+	<h:graphicImage class="logo" library="images" name="logo.png"
+		position="center"
+		style="height: 130px; width: 175px ; display: block; margin-left: auto; margin-right: auto" />
+
+	<div id="msg" align="center">
+		<ui:insert name="msg"></ui:insert>
+	</div>
+
+	<br />
+
+	<div id="corpo">
+		<ui:insert name="corpo" />
+
+		<p:growl id="idMessages" showDetail="true" severity="info">
+			<p:autoUpdate />
+		</p:growl>
+
+		<p:growl id="idMessagesErrors" showDetail="true" severity="error"
+			sticky="true">
+			<p:autoUpdate />
+		</p:growl>
+
+		<p:confirmDialog id="confirmDialog" global="true" showEffect="fade"
+			hideEffect="fade" style="text-align:center; margin: auto">
+			<p:commandButton id="confirmYes" value="Sim"
+				styleClass="ui-confirmdialog-yes" icon="pi pi-times"
+				style="text-align:center; right:32px" />
+			<p:commandButton id="confirmNo" value="Não"
+				styleClass="ui-confirmdialog-no" icon="pi pi-ban"
+				style="text-align:center; right:32px" />
+		</p:confirmDialog>
+	</div>
+
+	<div id="rodape">
+		<br /> <br />
+		<p:panel styleClass="barra"
+			style="width : 100%; text-align:center; border-color: #DF7401"
+			border="1">
+			<h:outputText value="Get Services © 2020 | Flavianny " />
+		</p:panel>
+	</div>
+</h:body>
+
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/layoutPadrao.xhtml">
+
+	<ui:define name="title">
+		Servicos
+	</ui:define>
+
+	<f:metadata>
+		<f:viewAction
+			action="#{servicoProfissionalBean.init(loginBean.usuarioLogado)}" />
+	</f:metadata>
+
+	<ui:define name="corpo">
+
+		<p:fieldset legend="Perfil">
+
+			<h:form id="formPerfil">
+
+				<p:panelGrid columns="3" styleClass="ui-noborder">
+
+					<p:outputLabel value="Nome: " styleClass="rotulos" />
+
+					<p:outputLabel value="#{loginBean.usuarioLogado.nome}" />
+
+					<p:button id="btnCadastrarServico" value="Cadastrar Serviço"
+						outcome="/admin/profissional/servico.xhtml" />
+				</p:panelGrid>
+
+			</h:form>
+		</p:fieldset>
+		<br />
+		<p:fieldset legend="Filtros">
+
+			<h:form id="formFilter">
+
+				<p:panelGrid columns="8" styleClass="ui-noborder"
+					style="width : 100%">
+					<f:facet name="header">Serviços</f:facet>
+
+					<p:outputLabel value="Nome: " for="nome" styleClass="rotulos" />
+					<p:inputText id="nome" styleClass="edit"
+						value="#{servicoProfissionalBean.servicoFilter.nome}" label="Nome"
+						style="width:250px" />
+
+					<p:outputLabel value="Descrição: " for="descricao"
+						styleClass="rotulos" />
+					<p:inputText id="descricao" styleClass="edit"
+						value="#{servicoProfissionalBean.servicoFilter.descricao}"
+						label="Descricao" style="width:250px" />
+
+					<p:outputLabel value="Tipo de Serviço: " for="tipo"
+						styleClass="rotulos" />
+					<p:selectOneMenu id="tipo" style="width:150px"
+						value="#{servicoProfissionalBean.servicoFilter.tipoServico}"
+						required="false">
+						<f:selectItem itemLabel="Selecione" itemValue="" />
+						<f:selectItems value="#{servicoBean.getTiposServicos()}" var="t"
+							itemLabel="#{t.tipoServico}" itemValue="#{t}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Status: " for="status" styleClass="rotulos" />
+					<p:selectOneMenu id="status"
+						value="#{servicoProfissionalBean.servicoFilter.status}"
+						required="false">
+						<f:selectItem itemLabel="Selecione" itemValue="" />
+						<f:selectItems value="#{servicoBean.getStatusServicos()}" var="s"
+							itemLabel="#{s.status}" itemValue="#{s}" />
+					</p:selectOneMenu>
+
+					<p:commandButton id="btnFiltrar" value="Buscar"
+						action="#{servicoProfissionalBean.buscar(loginBean.usuarioLogado)}"
+						update=":tabelaServico" icon="pi pi-search" />
+					<p:commandButton id="btnLimpar" value="Limpar"
+						action="#{servicoProfissionalBean.limpar()}" update=":formFilter"
+						process="@this" icon="pi pi-times" />
+				</p:panelGrid>
+
+			</h:form>
+		</p:fieldset>
+
+
+
+		<p:fieldset legend="Meus Serviços" toggleable="true">
+
+			<p:dataTable id="tabelaServico" var="servico"
+				value="#{servicoProfissionalBean.servicos}"
+				emptyMessage="Nenhum registro encontrado." rows="5" paginator="true"
+				paginatorAlwaysVisible="false"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15">
+
+				<p:column headerText="Nome">
+					<h:outputText value="#{servico.nome}" />
+				</p:column>
+
+				<p:column headerText="Descrição">
+					<h:outputText value="#{servico.descricao}" />
+				</p:column>
+
+				<p:column headerText="Tipo de Serviço">
+					<h:outputText value="#{servico.tipoServico}" />
+				</p:column>
+
+				<p:column headerText="Status">
+					<h:outputText value="#{servico.statusservico}" />
+				</p:column>
+
+				<p:column headerText="Operações" width="300">
+					<p:button id="editServico" value="Editar"
+						outcome="/admin/profissional/servico.xhtml" icon="pi pi-pencil"
+						style="left:60px">
+						<f:param name="servico" value="#{servico.id}" />
+					</p:button>
+
+					<p:commandButton id="removeServico" value="Remover"
+						icon="pi pi-times"
+						action="#{servicoProfissionalBean.deletar(servico)}"
+						style="left:60px">
+						<p:confirm header="Confirmação!"
+							message="Deseja deletar '#{servico.nome}'?"
+							icon="pi pi-exclamation-circle" />
+					</p:commandButton>
+
+				</p:column>
+			</p:dataTable>
+		</p:fieldset>
+
+
+	</ui:define>
+
+</ui:composition>
+</html>

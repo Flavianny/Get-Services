@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition>
+
+	<p:dialog id="editarSenhaDialogId" widgetVar="editarSenhaDialog" header="Mude sua senha" modal="true" dynamic="true" closeOnEscape="true">
+	
+		<h:form id="formEditarSenha">
+			<!-- <p:messages id="idMessagesErrorsUserChangeOwnPassword" showDetail="true" closable="true" severity="error" /> -->
+	
+			<h:outputText value="User: #{usuarioEditPropriaSenha.usuario.nome}" />
+	
+			<h:panelGrid columns="2" styleClass="ui-noborder">
+				<f:facet name="header">Senha</f:facet>
+	
+				<p:outputLabel for="currentPassword" value="Senha atual:" />
+				<p:password id="senhaAtual" value="#{usuarioEditPropriaSenha.confirmacaoSenhaAtual}" label="Senha Atual" required="true" />
+	
+				<p:outputLabel for="password" value="Nova senha:" />
+				<p:password id="password" value="#{usuarioEditPropriaSenha.novaSenha}" label="Nova Senha" match="confirmeSenha" feedback="true" required="true" />
+	
+				<p:outputLabel for="confirmeSenha" value="Confirmar senha:" />
+				<p:password id="confirmeSenha" value="#{usuarioEditPropriaSenha.novaSenha}" label="Confirmar Senha" feedback="true" required="true" />
+	
+				<p:commandButton id="botaoSubmeterEditarSenha" value="Submit" update="@form" icon="fa fa-save" 
+					actionListener="#{usuarioEditPropriaSenha.trocarSenha()}" 
+					oncomplete="if (!args.validationFailed) { PF('editOwnPasswordDialog').hide() }" />
+				<p:commandButton id="botaoCancelarEditarSenha" value="Cancel" icon="fa fa-remove" process="@this" oncomplete="PF('editarSenhaDialog').hide();" />
+			</h:panelGrid>
+		</h:form>
+	
+	</p:dialog>
+
+</ui:composition>
+
+</html>

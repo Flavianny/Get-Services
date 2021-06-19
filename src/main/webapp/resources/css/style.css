@@ -1,0 +1,10 @@
+.ui -panel-titlebar {
+	background-color: #3B73B9;
+}
+
+.ui-confirmdialog-yes {
+	top: 20px;
+	left: 50px;
+	margin: 0px;
+	padding: 0px;
+}

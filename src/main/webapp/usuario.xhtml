@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:metadata>
+	<o:viewParam name="usuario" value="#{usuarioBean.usuario}" />
+	<f:viewAction action="#{usuarioBean.init()}" />
+</f:metadata>
+
+<ui:composition template="/WEB-INF/templates/layoutPadrao.xhtml">
+
+	<ui:define name="Menu">
+	</ui:define>
+
+	<ui:define name="corpo">
+		<center>
+
+			<h:form id="formEdit">
+
+				<p:panelGrid columns="2" styleClass="ui-noborder">
+					<f:facet name="header">Usuário</f:facet>
+
+					<p:outputLabel value="Id: " rendered="#{usuarioBean.edicaoUsuario}" />
+					<p:outputLabel value="#{usuarioBean.usuario.id}"
+						rendered="#{usuarioBean.edicaoUsuario}" />
+
+					<p:outputLabel for="nome" value="Nome: " />
+					<p:inputText id="nome" value="#{usuarioBean.usuario.nome}"
+						required="true" label="Nome" style="width:240px" />
+
+					<p:outputLabel for="login" value="Login: " />
+					<p:outputPanel>
+						<p:inputText id="login" value="#{usuarioBean.usuario.login}"
+							label="Login" required="true" />
+						<p:commandButton id="checarDisponibilidadeLogin"
+							icon="pi pi-question" process="@this formEdit:login" />
+						<p:tooltip id="checarDisponibilidadeLoginTooltip"
+							value="Is login available?" for="checarDisponibilidadeLogin" />
+					</p:outputPanel>
+
+					<p:outputLabel for="senha" value="Senha: "
+						rendered="#{!usuarioBean.edicaoUsuario}" />
+					<p:password id="senha" value="#{usuarioBean.usuario.senha}"
+						label="Senha" required="true"
+						rendered="#{!usuarioBean.edicaoUsuario}" match="confirmacaoSenha"
+						feedback="true" />
+
+					<p:outputLabel for="confirmacaoSenha" value="Confirmar Senha:"
+						rendered="#{!usuarioBean.edicaoUsuario}" />
+					<p:password id="confirmacaoSenha" label="Confirm Senha"
+						required="true" rendered="#{!usuarioBean.edicaoUsuario}"
+						feedback="true" />
+
+					<p:outputLabel for="logradouro" value="Logradouro: " />
+					<p:inputText id="logradouro"
+						value="#{usuarioBean.usuario.endereco.logradouro}" required="true"
+						label="Logradouro" style="width:200px" />
+
+					<p:outputLabel for="numero" value="Numero: " />
+					<p:inputNumber id="numero"
+						value="#{usuarioBean.usuario.endereco.numero}" decimalPlaces="0"
+						required="true" label="Numero" size="24">
+						<p:ajax update="numero" />
+					</p:inputNumber>
+
+					<p:outputLabel for="bairro" value="Bairro: " />
+					<p:inputText id="bairro"
+						value="#{usuarioBean.usuario.endereco.bairro}" required="true"
+						label="Bairro" style="width:200px" />
+
+					<p:outputLabel for="cidade" value="Cidade: " />
+					<p:inputText id="cidade"
+						value="#{usuarioBean.usuario.endereco.cidade}" required="true"
+						label="Cidade" style="width:200px" />
+
+					<p:outputLabel for="estado" value="Estado: " />
+					<p:inputText id="estado"
+						value="#{usuarioBean.usuario.endereco.estado}" required="true"
+						label="Estado" style="width:200px" />
+
+					<p:outputLabel value="Tipo de Usuário: "
+						rendered="#{!usuarioBean.edicaoUsuario}" />
+					<p:selectOneMenu value="#{usuarioBean.tipoUsuario}" id="papelMenu"
+						rendered="#{!usuarioBean.edicaoUsuario}">
+						<f:selectItem itemLabel="Selecione" itemValue="#{null}"
+							itemDisabled="true" />
+						<f:selectItem itemLabel="Cliente" itemValue="CLIENTE" />
+						<f:selectItem itemLabel="Profissional" itemValue="PROFISSIONAL" />
+					</p:selectOneMenu>
+
+					<p:commandButton action="#{usuarioBean.salva()}" value="Salvar"
+						icon="pi pi-save" />
+
+					<p:button outcome="/admin/index.xhtml?faces-redirect=true"
+						value="Cancelar" icon="pi pi-ban" />
+				</p:panelGrid>
+
+			</h:form>
+		</center>
+
+	</ui:define>
+</ui:composition>
+</html>

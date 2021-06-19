@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/layoutPadrao.xhtml">
+
+	<ui:define name="title">
+		Contratar Serviço
+	</ui:define>
+
+	<f:metadata>
+		<o:viewParam name="servico" value="#{contratoServicoBean.servico}" />
+		<f:viewAction action="#{contratoServicoBean.init()}" />
+	</f:metadata>
+
+	<ui:define name="corpo">
+		<center>
+
+			<h:form id="formEdit">
+
+				<p:panelGrid columns="2" styleClass="ui-noborder">
+					<f:facet name="header">Contratar Serviço</f:facet>
+
+					<p:outputLabel value="Servico: "
+						rendered="#{contratoServicoBean.servico != null}" />
+					<p:outputLabel value="#{contratoServicoBean.servico.nome}"
+						rendered="#{contratoServicoBean.servico != null}" />
+					<p:outputLabel value="O que necessita do serviço: "
+						rendered="#{contratoServicoBean.servico != null}" />
+					<p:inputText id="nome"
+						value="#{contratoServicoBean.contratoServico.descricaoServico}"
+						required="true" label="Descricao" style="width:350px"/>
+					<p:commandButton action="#{contratoServicoBean.salvar(loginBean.usuarioLogado)}"
+						value="Salvar" icon="pi pi-save" />
+					<p:button
+						outcome="/admin/cliente/servicos.xhtml?faces-redirect=true"
+						value="Cancelar" icon="pi pi-ban" />
+				</p:panelGrid>
+
+			</h:form>
+		</center>
+
+	</ui:define>
+</ui:composition>
+</html>

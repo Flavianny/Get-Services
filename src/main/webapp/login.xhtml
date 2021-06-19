@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/WEB-INF/templates/layoutPadrao.xhtml">
+
+	<ui:define name="title">
+		Login
+	</ui:define>
+	
+	<ui:define name="Menu">
+	</ui:define>
+,
+	<ui:define name="corpo">
+		<h:messages id="msg" />
+
+		<p:panel header="Login" styleClass="barralogin"
+			style="width: 30%; text-align:center; margin: auto; border-color: #DF7401">
+
+			<h:form id="formLogin">
+				<h:messages id="msg" />
+
+				<h:panelGrid columns="2" style="text-align:center; margin: auto">
+					<h:outputLabel value="Login:  " />
+					<h:inputText id="login" label="login"
+						value="#{loginBean.usuario.login}" required="true">
+					</h:inputText>
+
+					<h:outputLabel value="Senha:  " />
+					<h:inputSecret id="senha" label="senha"
+						value="#{loginBean.usuario.senha}" required="true">
+					</h:inputSecret>
+
+					<p:commandButton id="btnLogin" value="Login"
+						action="#{loginBean.login}" ajax="false" icon="pi pi-sign-in"
+						style="left:10px" />
+					<p:commandButton id="btnReset" value="Reset" type="reset"
+						icon="pi pi-remove" style="left:33px" />
+				</h:panelGrid>
+				<h:outputText value="Ainda não tem conta? " />
+				<p:link value="Cadastra-se"
+					outcome="/usuario.xhtml" />
+			</h:form>
+		</p:panel>
+	</ui:define>
+
+</ui:composition>
+</html>

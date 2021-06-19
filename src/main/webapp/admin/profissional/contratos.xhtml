@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/layoutPadrao.xhtml">
+
+	<ui:define name="title">
+		Contratos
+	</ui:define>
+
+	<f:metadata>
+		<f:viewAction
+			action="#{contratoPorUsuarioBean.init(loginBean.usuarioLogado)}" />
+	</f:metadata>
+
+	<ui:define name="corpo">
+
+		<p:fieldset legend="Filtros">
+
+			<h:form id="formFilter">
+
+				<p:panelGrid columns="5" styleClass="ui-noborder" style="width : 100%">
+					<f:facet name="header">Contrato</f:facet>
+
+					<p:outputLabel value="Serviço: " for="servico" styleClass="rotulos"/>
+					<p:outputLabel value="Descrição: " for="descricao"
+						styleClass="rotulos" />
+					<p:outputLabel value="Status: " for="status" styleClass="rotulos" />
+					<p:outputLabel value="Data Início: " for="dataInicio"
+						styleClass="rotulos" />
+					<p:outputLabel value="Data Final: " for="dataFinal"
+						styleClass="rotulos" />
+
+					<p:inputText id="servico" styleClass="edit"
+						value="#{contratoPorUsuarioBean.contratoFilter.nomeServico}"
+						label="Servico" style="width:220px" />
+
+					<p:inputText id="descricao" styleClass="edit"
+						value="#{contratoPorUsuarioBean.contratoFilter.descricao}"
+						label="Descricao" style="width:220px" />
+
+					<p:selectOneMenu id="status"
+						value="#{contratoPorUsuarioBean.contratoFilter.status}"
+						required="false" style="width:170px">
+						<f:selectItem itemLabel="Selecione" itemValue="" />
+						<f:selectItems value="#{contratoServicoBean.getStatusContratos()}"
+							var="s" itemLabel="#{s.statusContrato}" itemValue="#{s}" />
+					</p:selectOneMenu>
+
+					<p:datePicker id="dataInicio"
+						value="#{contratoPorUsuarioBean.contratoFilter.dataInicio}"
+						showIcon="true" />
+
+					<p:datePicker id="dataFinal"
+						value="#{contratoPorUsuarioBean.contratoFilter.dataFinal}"
+						showIcon="true" />
+
+				</p:panelGrid>
+				<p:panelGrid columns="5" styleClass="ui-noborder">
+					<p:commandButton id="btnFiltrar" value="Buscar"
+						action="#{contratoPorUsuarioBean.buscar(loginBean.usuarioLogado)}"
+						update=":tabelaContratos" icon="pi pi-search" />
+					<p:commandButton id="btnLimpar" value="Limpar"
+						action="#{contratoPorUsuarioBean.limpar()}" update=":formFilter"
+						process="@this" icon="pi pi-times"
+						style="left:8px" />
+				</p:panelGrid>
+
+			</h:form>
+		</p:fieldset>
+
+		<p:fieldset legend="Contratos" toggleable="true">
+
+			<p:dataTable id="tabelaContratos" var="contrato"
+				value="#{contratoPorUsuarioBean.contratos}"
+				emptyMessage="Nenhum registro encontrado." rows="5" paginator="true"
+				paginatorAlwaysVisible="false"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15">
+
+				<p:column headerText="Serviço">
+					<h:outputText value="#{contrato.servico.nome}" />
+				</p:column>
+
+				<p:column headerText="Descrição">
+					<h:outputText value="#{contrato.descricaoServico}" />
+				</p:column>
+
+				<p:column headerText="Data Ínicio">
+					<h:outputText value="#{contrato.dataInicio}" />
+				</p:column>
+
+				<p:column headerText="Data Final">
+					<h:outputText value="#{contrato.dataFinal}" />
+				</p:column>
+
+				<p:column headerText="Status">
+					<h:outputText value="#{contrato.statusContrato}" />
+				</p:column>
+
+				<p:column headerText="Operações" width="300">
+					<p:button id="editContrato" value="Atualizar Contrato"
+						outcome="/admin/profissional/contrato.xhtml" icon="fa fa-edit"
+						style="left:70px">
+						<f:param name="contrato" value="#{contrato.id}" />
+					</p:button>
+				</p:column>
+
+			</p:dataTable>
+		</p:fieldset>
+
+
+	</ui:define>
+
+</ui:composition>
+</html>

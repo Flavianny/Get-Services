@@ -22,12 +22,21 @@ public class UsuarioTest {
 	@Test
 	public void CadastrarUsuarioTest() throws PersistenciaException {
 		Usuario usuario = new Usuario();
-		usuario.setLogin("annydiniz96@gmail.com");
-		usuario.setNome("Flavianny");
-		usuario.setSenha("anny123");
+		usuario.setLogin("teste1@gmail.com");
+		usuario.setNome("teste1");
+		usuario.setSenha("teste123");
 		usuarioService.salvar(usuario);
 		Usuario usuarioSalvo = usuarioService.buscaPeloId(usuario.getId());
 		assertNotNull(usuarioSalvo);
+	}
+	
+	@Test(expected = java.lang.NullPointerException.class)
+	public void CadastrarUsuarioComCampoVazioTest() throws PersistenciaException {
+		Usuario usuario = new Usuario();
+		usuario.setLogin("teste1@gmail.com");
+		usuario.setSenha("teste123");
+		usuarioService.salvar(usuario);
+		usuarioService.buscaPeloId(usuario.getId());
 	}
 
 	@Test

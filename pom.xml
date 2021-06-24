@@ -91,7 +91,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.19</version>
+			<version>8.0.21</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
@@ -108,6 +108,12 @@
 			<version>4.0.1</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+  <groupId>org.glassfish.soteria</groupId>
+  <artifactId>javax.security.enterprise</artifactId>
+  <version>1.0</version>
+</dependency>
 
 
 	</dependencies>
